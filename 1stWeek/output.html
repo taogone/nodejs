@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div#box {
+        width: 100px;
+        height: 100px;
+        background: orange;
+      }
+    </style>
+    <script>
+      var move = function(dest, callback) {
+        var box = document.getElementById("box");
+        var x = 0;
+        var speed = 3;
+        var interval = setInterval(function() {
+          x += speed;
+          if (x === dest) {
+            clearInterval(interval);
+            x = dest;
+            callback();
+          }
+          box.style.left = x + "px";
+        }, 1000 / 30);
+      };
+      window.onload = function() {
+        move(300, function() {
+          box.style.background = black;
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <h1>
+      This is "output.html"
+    </h1>
+    <div id="box">Box</div>
+  </body>
+</html>
