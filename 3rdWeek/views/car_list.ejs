@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>자동차 목록</title>
+  </head>
+  <body>
+    <h1>자동차 목록</h1>
+    <table border="1">
+      <tr>
+        <td>name</td>
+        <td>price</td>
+        <td>company</td>
+        <td>year</td>
+      </tr>
+      <% for(var car of carList){ %>
+      <tr>
+        <td><%=car.name%></td>
+        <td><%=car.price%></td>
+        <td><%=car.company%></td>
+        <td><%=car.year%></td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>
