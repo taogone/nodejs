@@ -54,11 +54,25 @@ function authUser(db, loginData, callback) {
     }
 
     if (docs.length > 0) {
-      console.log("사용자 있음");
+      console.log("User is exist.");
       callback(null, docs);
     } else {
-      console.log("사용자 없음");
+      console.log("User is non-exist.");
       callback(null, null);
+    }
+  });
+}
+
+function addUser(db, userData, callback) {
+  console.log("addUser function execution");
+  var users = db.collection("users");
+  users.insertMany([userData], function(err, result) {
+    if (err) {
+      callback(err, null);
+      return;
+    } else {
+      console.log("New User is added succefully.");
+      callback(null, result);
     }
   });
 }
@@ -100,6 +114,44 @@ router.route("/process/login").post(function(req, res) {
 
 router.route("/process/logout").get(function(req, res) {
   console.log("/process/logout 요청됨.");
+});
+
+router.route("/process/test").post(function(req, res) {
+  console.log("/process/test 요청 테스트");
+});
+
+router.route("/process/adduser").post(function(req, res) {
+  console.log("/process/adduser is requested.");
+
+  // 전달받은 요청 파라미터 출력
+  var userId = req.body.id;
+  var userPasswd = req.body.passwd;
+  var userName = req.body.name;
+
+  var userData = {
+    id: userId,
+    name: userName,
+    password: userPasswd
+  };
+  console.log("POST => ", userData);
+
+  if (db) {
+    console.log("사용자 추가 처리 시작");
+    addUser(db, userData, function(err, result) {
+      if (err) throw err;
+      if (result && result.insertedCount > 0) {
+        console.dir(result);
+        res.writeHead(200, { "Content-Type": "text/html;charset=utf8" });
+        res.write("사용자 추가 성공");
+        res.write("<a href=/public/login.html>다시 로그인</a>");
+        res.end();
+      } else {
+        res.end("사용자 추가 실패");
+      }
+    });
+  } else {
+    res.end("DB Connection Error");
+  }
 });
 
 app.use("/", router);
