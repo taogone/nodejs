@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=<<device-width>>, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" name="a" />
+      <input type="text" name="b" />
+      <select name="op">
+        <option value="plus">plus</option>
+        <option value="plus">minus</option>
+        <option value="plus">mult</option>
+        <option value="plus">dev</option>
+      </select>
+      <input type="submit" value="result" />
+    </form>
+    <div id="result"></div>
+  </body>
+  <script>
+    var form = document.foms[0];
+    console.log(form);
+    form.onsubmit = function() {
+      event.preventDefault();
+
+      var op = this.op.value;
+      var a = this.a.value;
+      var b = this.b.value;
+      var url = "http://localhost:3000/" + op + "/" + a + "/" + b;
+      var xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = function() {
+        console.log(this.readyState, this.responseText);
+        document.getElementById("result").innerHTML = this.responseText;
+      };
+      xhr.open("GET", url, true);
+      xhr.send();
+    };
+  </script>
+</html>
