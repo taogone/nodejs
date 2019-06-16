@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>/public/client_socket.html</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+      //  var socket = io.connect("http://localhost:3000");
+
+      var host, port, socket;
+
+      function println(data) {
+        console.log(data);
+        $("#result").append("<br>" + data);
+      }
+
+      function connectServer() {
+        var url = "http://" + host + ":" + port;
+        socket = io.connect(url, { client_name: "ykkim" });
+
+        socket.on("connect", function() {
+          console.log("socket server is connected.");
+        });
+
+        socket.on("disconnect", function() {
+          println("socket server is disconnected.");
+        });
+      }
+
+      $(document).ready(function() {
+        $("#connectButton").on("click", function(event) {
+          println("connectButton is clicked.");
+          host = $("#hostInput").val();
+          port = $("#portInput").val();
+
+          connectServer();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>채팅 클라이언트 01</h1>
+    <br />
+    <div>
+      <input type="text" id="hostInput" value="" />
+      <input type="text" id="portInput" value="" />
+      <input type="button" id="connectButton" value="연결하기" />
+    </div>
+    <hr />
+    <p id="result">결과:</p>
+    <div id="result"></div>
+  </body>
+</html>
