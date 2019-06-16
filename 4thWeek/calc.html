@@ -33,8 +33,11 @@
       var xhr = new XMLHttpRequest();
 
       xhr.onreadystatechange = function() {
-        console.log(this.readyState, this.responseText);
-        document.getElementById("result").innerHTML = this.responseText;
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.readyState, this.status, this.responseText);
+          var result = document.getElementById("result");
+          result.innerHTML = "결과: " + a + op + b + " = " + this.responseText;
+        }
       };
       xhr.open("GET", url, true);
       xhr.send();
